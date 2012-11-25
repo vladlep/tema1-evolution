@@ -1,4 +1,5 @@
 module LinesCode
+
 import lang::java::jdt::Java;
 import lang::java::jdt::JDT;
 import  lang::java::jdt::JavaADT;
@@ -36,14 +37,21 @@ public void linesCode(){
 }
 
 /**
+short version
+*/
+
+
+
+/**
 not used in the project. Used in a try-out version.
 */
 public void getAllFiles (){
 	projectLoc = |project://Hello/|;
 	resour = getProject(projectLoc);
 	cont= 0;
+	allFiles = {};
 	visit (resour) { 
-		case file( location2): cont++; 
+		case file(aFileLoc) : if(aFileLoc.extension == "java") allFiles += aFileLoc;  
 		}
-	println(cont++);
+	println(allFiles);
 }
