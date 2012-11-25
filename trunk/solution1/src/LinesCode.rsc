@@ -12,44 +12,32 @@ public void linesCode(){
 	outputFile = |file:///D:/vlad/ast.txt|; 
 	methodsFile = |file:///D:/vlad/methods.txt| ;
 	
-	theResource = extractProject(projectLoc );
-	
 	ast = createAstsFromProject(projectLoc);
 	//ast = createAstFromFile(outputFile);
-	//println(size(ast));
 
+	totalLOC = 0;
 	contor = 0;
+	
 	for (AstNode aNode <- ast)
 	{
+		linesWithCode = {};
 		visit(aNode){
-		case p:AstNode : println(p@location.bl);
+		case p:AstNode: 
+			try println(p@location.begin.line); catch Exception(): println("a");
+		//linesWithCode  = linesWithCode  +{i | i <- [p@location.begin.line..p@location.end.line]}; //This should be it!
 	
 		};
+		totalLOC += size(linesWithCode); 
 	};
 	print (contor);
-	//res = [ info|A aNode<-ast, info = aNode@location];
-	
+	print (totalLOC);	
 	
 	//appendToFile(outputFile, ast);
 }
 
-public void lines2(){
-	projectLoc = |project://Hello/|;
-	outputFile = |file:///D:/vlad/ast.txt|; 
-	methodsFile = |file:///D:/vlad/methods2.txt| ;
-	contor = 0;
-	allFiles = extractProject(projectLoc );
-	appendToFile(methodsFile, allFiles);
-	for ( aFile <- allFiles)
-	{
-		break;
-		fileAst = createAstFromFile(aFile);
-		visit(fileAst){
-			case methodDeclaration(_, _, _, _, methodName, _, _, _) : {contor = contor +1 ;appendToFile(methodsFile , methodName+"\n"); }
-		};
-	};
-}
-
+/**
+not used in the project. Used in a try-out version.
+*/
 public void getAllFiles (){
 	projectLoc = |project://Hello/|;
 	resour = getProject(projectLoc);
