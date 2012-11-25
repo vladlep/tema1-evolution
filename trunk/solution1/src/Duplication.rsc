@@ -17,22 +17,40 @@ than once in equal code blocks of at least 6 lines" [SIG]
 public void findClones(){
 	allFiles = {|project://Hello/src/apackage/HelloWorld.java|,|project://Hello/src/apackage/MainClass.java|};
 	strFile = [];
+	totalDupLines = 0;
 	for (aFile <- allFiles){
 		strFile = [trim(aLine) |aLine <-readFileLines(aFile)];
 		allFiles = allFiles - aFile;
-		for(int i <-[ 0 ..  (size(strFile)-6)]){
+		i = 0;
+		while (i <size(strFile)-6){
 			println(strFile[i]);
 			//search same file
-			for( j <- [i+5..(size(strFile)-6)]){
-				break;
+			theFragment = [strFile[i+k] |  k<-[0..5]];
+			j =  i+5;
+			while(j <size(strFile)-6){
+				otherFragment = [strFile[j+k] | k<-[0..5]];
+				if( theFragment == otherFragment){
+					nrDupLines = 6;
+					moreLines = 1;
+					while(strFile[i+nrDupLines ] == strFile[j+nrDupLines ])
+						nrDupLines+=1;
+					j += nrDupLines;
+					totalDupLines +=nrDupLines;		
+				}else{ 
+					j+=1;
+					}
+						
 			}
 			
 			//search rest of files
 			for (otherFile <-allFiles){
 				break;
 			}
+		
+		i+=1;
 		}
 	}
+	println (totalDupLines);
 }
 
 /**
