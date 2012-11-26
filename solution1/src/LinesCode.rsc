@@ -24,14 +24,18 @@ public void linesCode(){
 	{
 		linesWithCode = {};
 		visit(aNode){
-		case p:packageDeclaration(_,_):
-			try println(p@location.begin.line); catch Exception(): println("a");
-		case p:importDeclaration(_,_,_):
-			try println(p@location.begin.line); catch Exception(): println("a");			 
+			case p:packageDeclaration(_,_):println(p@location.begin.line); 
+			case p:importDeclaration(_,_,_):println(p@location.begin.line); 			 
 				  	
+		//if(getAnnotations(p) contains location)
+			//	linesWithCode  = linesWithCode  +{i | i <- [p@location.begin.line..p@location.end.line]}; //This should be it!
 			//try println(p@location.begin.line); catch Exception(): println("a");
-		//linesWithCode  = linesWithCode  +{i | i <- [p@location.begin.line..p@location.end.line]}; //This should be it!
-	
+			//try {
+			//	println(getAnnotations(p));
+			//	println(p);
+			//} catch RuntimeException(v):
+					//continue;
+				
 		};
 		totalLOC += size(linesWithCode); 
 	};

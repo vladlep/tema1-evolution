@@ -7,6 +7,8 @@ import util::Resources;
 import IO;
 import String;
 import List;
+import Set;
+import Map;
 
 /**
 	"We calculate code duplication as the percentage of all code that occurs more 
@@ -16,13 +18,15 @@ than once in equal code blocks of at least 6 lines" [SIG]
 */
 public void findClones(){
 	allFiles = {|project://Hello/src/apackage/HelloWorld.java|,|project://Hello/src/apackage/MainClass.java|};
-	strFile = [];
+	
 	totalDupLines = 0;
+	map[loc,set[int]] dupMap= (aFile:{}|aFile <-allFiles) ;
+	
 	for (aFile <- allFiles){
 		strFile = [trim(aLine) |aLine <-readFileLines(aFile)];
 		allFiles = allFiles - aFile;
-		i = 0;
-		while (i <size(strFile)-6){
+		
+		for(i <-[0..(size(strFile)-6)]){
 			println(strFile[i]);
 			//search same file
 			theFragment = [strFile[i+k] |  k<-[0..5]];
@@ -30,27 +34,33 @@ public void findClones(){
 			while(j <size(strFile)-6){
 				otherFragment = [strFile[j+k] | k<-[0..5]];
 				if( theFragment == otherFragment){
-					nrDupLines = 6;
-					moreLines = 1;
-					while(strFile[i+nrDupLines ] == strFile[j+nrDupLines ])
-						nrDupLines+=1;
-					j += nrDupLines;
-					totalDupLines +=nrDupLines;		
-				}else{ 
-					j+=1;
-					}
-						
+					duplicatedLines = {dupLines|dupLines <- [j ..(j+5)]};
+					dupMap+=(aFile: duplicatedLines);
+					duplicatedLines = {dupLines|dupLines <- [i ..(i+5)]};
+					dupMap+=(aFile: duplicatedLines);	
+				}
+				j+=1;
 			}
 			
 			//search rest of files
 			for (otherFile <-allFiles){
-				break;
+				otherFileStr = [trim(aLine) |aLine <-readFileLines(otherFile)];
+				for(j<-[0..(size(otherFileStr)-6)]){
+				otherFragment = [otherFileStr[j+k] | k<-[0..5]];
+				if( theFragment == otherFragment){
+					duplicatedLines = {dupLines|dupLines <- [j ..(j+5)]};
+					dupMap+=(otherFile : duplicatedLines);
+					duplicatedLines = {dupLines|dupLines <- [i ..(i+5)]};
+					dupMap+=(aFile : duplicatedLines);	
+				}
+				}
 			}
-		
 		i+=1;
 		}
 	}
-	println (totalDupLines);
+	allFiles = domain(dupMap);
+	totalDupLines = sum ([ size(dupMap[aFile]) | aFile <- allFiles ]);
+	println (totalDupLines );
 }
 
 /**
