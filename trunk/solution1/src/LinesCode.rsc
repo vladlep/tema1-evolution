@@ -7,6 +7,7 @@ import util::Resources;
 import IO;
 import List;
 import Set;
+import Node;
 
 public void linesCode(){
 	projectLoc = |project://Hello/.|;
@@ -23,8 +24,12 @@ public void linesCode(){
 	{
 		linesWithCode = {};
 		visit(aNode){
-		case p:AstNode: 
+		case p:packageDeclaration(_,_):
 			try println(p@location.begin.line); catch Exception(): println("a");
+		case p:importDeclaration(_,_,_):
+			try println(p@location.begin.line); catch Exception(): println("a");			 
+				  	
+			//try println(p@location.begin.line); catch Exception(): println("a");
 		//linesWithCode  = linesWithCode  +{i | i <- [p@location.begin.line..p@location.end.line]}; //This should be it!
 	
 		};
