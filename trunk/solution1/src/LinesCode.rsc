@@ -2,7 +2,7 @@ module LinesCode
 
 import lang::java::jdt::Java;
 import lang::java::jdt::JDT;
-import  lang::java::jdt::JavaADT;
+import lang::java::jdt::JavaADT;
 import util::Resources;
 import IO;
 import List;
@@ -12,11 +12,7 @@ import Map;
 
 public void linesCode() {
 	projectLoc = |project://Hello/.|;
-	outputFile = |file:///D:/vlad/ast.txt|; 
-	methodsFile = |file:///D:/vlad/methods.txt| ;
-	
 	ast = createAstsFromProject(projectLoc);
-	//ast = createAstFromFile(outputFile);
 
 	totalLOC = 0;
 	
@@ -35,17 +31,10 @@ public void linesCode() {
 			//	print(";");
 			//	println(p@location.end.line);
 			//}
-			case p : methodDeclaration(_,_,_,_,_,_,_,implementationAST): {
-				print(p@location.begin.line);
-				print(";");
-				println(p@location.end.line);
-				println(getUnitSize(implementationAST));
-			}
 			case AstNode subNode: {
 				if("location" in getAnnotations(subNode)) {
 					//linesWithCode  = linesWithCode  +{i | i <- [p@location.begin.line..p@location.end.line]}; //This should be it!
-					linesWithCode += subNode@location.begin.line;
-					linesWithCode += subNode@location.end.line;
+					linesWithCode += {subNode@location.begin.line} + {subNode@location.end.line};
 				}
 			}	
 		};
@@ -62,8 +51,6 @@ public void linesCode() {
 	print("Final result: ");
 	print(totalLOC);
 	println(" lines");
-	
-	//appendToFile(outputFile, ast);
 }
 
 public int getUnitSize(implementationAST) {
@@ -73,8 +60,7 @@ public int getUnitSize(implementationAST) {
 			print(subNode@location.begin.line);
 			print("++");
 			println(subNode@location.end.line);
-			linesWithCode += subNode@location.begin.line;
-			linesWithCode += subNode@location.end.line;
+			linesWithCode += {subNode@location.begin.line} + {subNode@location.end.line};
 		}
 	};
 	return size(linesWithCode);
