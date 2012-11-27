@@ -8,6 +8,7 @@ import IO;
 import List;
 import Set;
 import Node;
+import Map;
 
 public void linesCode(){
 	projectLoc = |project://Hello/.|;
@@ -23,10 +24,55 @@ public void linesCode(){
 	for (AstNode aNode <- ast)
 	{
 		linesWithCode = {};
+		println("---------------------");
 		visit(aNode){
-			case p:packageDeclaration(_,_):println(p@location.begin.line); 
-			case p:importDeclaration(_,_,_):println(p@location.begin.line); 			 
-				  	
+			case javadoc():
+				println("?????????????????????????");
+			case AstNode subNode: 
+			{
+				if("location" in getAnnotations(subNode)) 
+				{
+					//linesWithCode  = linesWithCode  +{i | i <- [p@location.begin.line..p@location.end.line]}; //This should be it!
+					try {
+						if("javaType" in getAnnotations(subNode))
+							print(subNode@javaType);
+						print(subNode@location.begin.line);
+						print("+++++");
+						println(subNode@location.end.line);
+						} 
+					catch Exception(): println("a");
+				}
+			}
+			//case p:packageDeclaration(_,_):println(p@location.begin.line); 
+			//case p:importDeclaration(_,_,_):println(p@location.begin.line);
+			//case p:typeDeclaration(_,_,"class",_,_,_,_,_): 
+			//{
+			//	print("Class declaration: starts at line ");
+			//	print(p@location.begin.line);
+			//	print("; ends at line ");
+			//	println(p@location.end.line);
+			//} 	
+			//case p:enumDeclaration(_,_,_,_,_,_):
+			//{
+			//	print("Enum declaration: starts at line ");
+			//	print(p@location.begin.line);
+			//	print("; ends at line ");
+			//	println(p@location.end.line);
+			//}	
+			//case p:fieldDeclaration(_,_,_,_): 
+			//{
+			//	print("Field declaration: starts at line ");
+			//	print(p@location.begin.line);
+			//	print("; ends at line ");
+			//	println(p@location.end.line);
+			//}
+			//case p:methodDeclaration(_, _, _, _, _, _, _, _) :
+			//{
+			//	print("Method declaration: starts at line ");
+			//	print(p@location.begin.line);
+			//	print("; ends at line ");
+			//	println(p@location.end.line);
+			//}	  	
 		//if(getAnnotations(p) contains location)
 			//	linesWithCode  = linesWithCode  +{i | i <- [p@location.begin.line..p@location.end.line]}; //This should be it!
 			//try println(p@location.begin.line); catch Exception(): println("a");
