@@ -2,6 +2,8 @@
 
 package apackage;
 
+import java.lang.*;
+
 enum Season { 
 	WINTER, 
 	SPRING, 
@@ -17,7 +19,7 @@ enum Season {
  * sd
  */
 public class HelloWorld {
-
+	
 	public HelloWorld() {
 		// TODO Auto-generated constructor stub
 	}

@@ -10,7 +10,7 @@ import Set;
 import Node;
 import Map;
 
-public void linesCode(){
+public void linesCode() {
 	projectLoc = |project://Hello/.|;
 	outputFile = |file:///D:/vlad/ast.txt|; 
 	methodsFile = |file:///D:/vlad/methods.txt| ;
@@ -19,78 +19,63 @@ public void linesCode(){
 	//ast = createAstFromFile(outputFile);
 
 	totalLOC = 0;
-	contor = 0;
 	
 	for (AstNode aNode <- ast)
 	{
+		contor = 0;
 		linesWithCode = {};
-		println("---------------------");
 		visit(aNode){
-			case javadoc():
-				println("?????????????????????????");
-			case AstNode subNode: 
-			{
-				if("location" in getAnnotations(subNode)) 
-				{
-					//linesWithCode  = linesWithCode  +{i | i <- [p@location.begin.line..p@location.end.line]}; //This should be it!
-					try {
-						if("javaType" in getAnnotations(subNode))
-							print(subNode@javaType);
-						print(subNode@location.begin.line);
-						print("+++++");
-						println(subNode@location.end.line);
-						} 
-					catch Exception(): println("a");
-				}
+			case subNode : compilationUnit(_,_,_): {
+				//do nothing; how?
+				linesWithCode = linesWithCode;
 			}
-			//case p:packageDeclaration(_,_):println(p@location.begin.line); 
-			//case p:importDeclaration(_,_,_):println(p@location.begin.line);
-			//case p:typeDeclaration(_,_,"class",_,_,_,_,_): 
-			//{
-			//	print("Class declaration: starts at line ");
+			//this case will match the method, including its javadoc
+			//case p : methodDeclaration(_,_,_,_,_,_,_,_): {
 			//	print(p@location.begin.line);
-			//	print("; ends at line ");
-			//	println(p@location.end.line);
-			//} 	
-			//case p:enumDeclaration(_,_,_,_,_,_):
-			//{
-			//	print("Enum declaration: starts at line ");
-			//	print(p@location.begin.line);
-			//	print("; ends at line ");
-			//	println(p@location.end.line);
-			//}	
-			//case p:fieldDeclaration(_,_,_,_): 
-			//{
-			//	print("Field declaration: starts at line ");
-			//	print(p@location.begin.line);
-			//	print("; ends at line ");
+			//	print(";");
 			//	println(p@location.end.line);
 			//}
-			//case p:methodDeclaration(_, _, _, _, _, _, _, _) :
-			//{
-			//	print("Method declaration: starts at line ");
-			//	print(p@location.begin.line);
-			//	print("; ends at line ");
-			//	println(p@location.end.line);
-			//}	  	
-		//if(getAnnotations(p) contains location)
-			//	linesWithCode  = linesWithCode  +{i | i <- [p@location.begin.line..p@location.end.line]}; //This should be it!
-			//try println(p@location.begin.line); catch Exception(): println("a");
-			//try {
-			//	println(getAnnotations(p));
-			//	println(p);
-			//} catch RuntimeException(v):
-					//continue;
-				
+			case p : methodDeclaration(_,_,_,_,_,_,_,implementationAST): {
+				print(p@location.begin.line);
+				print(";");
+				println(p@location.end.line);
+				println(getUnitSize(implementationAST));
+			}
+			case AstNode subNode: {
+				if("location" in getAnnotations(subNode)) {
+					//linesWithCode  = linesWithCode  +{i | i <- [p@location.begin.line..p@location.end.line]}; //This should be it!
+					linesWithCode += subNode@location.begin.line;
+					linesWithCode += subNode@location.end.line;
+				}
+			}	
 		};
-		totalLOC += size(linesWithCode); 
+		contor += size(linesWithCode);
+		println("-----File: lines of code------");
+		orderedList = sort(toList(linesWithCode));
+		println(orderedList);
+		print("No of lines/file: ");
+		println(contor);	
+		println();
+		totalLOC += contor;  
 	};
-	print (contor);
-	print (totalLOC);	
+	println("----------The end------------");
+	print("Final result: ");
+	print(totalLOC);
+	println(" lines");
 	
 	//appendToFile(outputFile, ast);
 }
 
-/**
-short version
-*/
+public int getUnitSize(implementationAST) {
+	linesWithCode = {};
+	visit(implementationAST){
+		case AstNode subNode: {
+			print(subNode@location.begin.line);
+			print("++");
+			println(subNode@location.end.line);
+			linesWithCode += subNode@location.begin.line;
+			linesWithCode += subNode@location.end.line;
+		}
+	};
+	return size(linesWithCode);
+}
