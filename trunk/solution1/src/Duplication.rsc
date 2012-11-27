@@ -16,7 +16,7 @@ than once in equal code blocks of at least 6 lines" [SIG]
 	we ignore leading spaces
 	long version of the function
 */
-public real calculateDuplication(selecteProject){
+public void calculateDuplication(selecteProject){
 	allFiles = getAllFiles(selecteProject);
 	
 	totalDupLines = 0;
