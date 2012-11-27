@@ -6,11 +6,9 @@ import IO;
 
 public void main(){
 	selectedProject = |project://SmallSql/| ;
+	linesCode(projectLoc) 
+	unitComplexity(selectedProject);
+	calculateDuplication(selectedProject);
 	
-	//unitComplexity(selectedProject);
-	
-	println("Code duplication percentage:");
-	print (calculateDuplication(selectedProject)) ;
-	println("%");
 }
 

@@ -61,22 +61,14 @@ public real calculateDuplication(selecteProject){
 	allFiles = domain(dupMap);
 	println(dupMap);
 	totalDupLines = sum ([ size(dupMap[aFile]) | aFile <- allFiles ]);
-	println (totalDupLines );
+	println(totalDupLines );
 	println(totalNumnerLines);
-	print(totalDupLines /totalNumnerLines );
-	print("%");
-	println(); 
-	return (totalDupLines /totalNumnerLines * 100);
+	println("Duplicated code percentage:");
+	print(totalDupLines /totalNumnerLines*100);
+	println("%");
+	
 }
 
-/**
-short version
-*/
-
-
-/**
-
-*/
 public set[loc] getAllFiles (projectLoc){
 	//projectLoc = |project://Hello/|;
 	resour = getProject(projectLoc);
