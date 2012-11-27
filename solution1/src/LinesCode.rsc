@@ -10,58 +10,62 @@ import Set;
 import Node;
 import Map;
 
-public void linesCode() {
-	projectLoc = |project://Hello/.|;
+public void linesCode(projectLoc) {
+	//projectLoc = |project://Hello/.|;
 	ast = createAstsFromProject(projectLoc);
-
 	totalLOC = 0;
-	
-	for (AstNode aNode <- ast)
-	{
+	for (AstNode aNode <- ast){
 		contor = 0;
 		linesWithCode = {};
 		visit(aNode){
 			case subNode : compilationUnit(_,_,_): {
-				//do nothing; how?
-				linesWithCode = linesWithCode;
+				linesWithCode = linesWithCode;//do nothing; how?
+			}
+			case AstNode subNode: {
+				if("location" in getAnnotations(subNode)) {
+					linesWithCode += {subNode@location.begin.line} + {subNode@location.end.line};
+				}
 			}
 			//this case will match the method, including its javadoc
 			//case p : methodDeclaration(_,_,_,_,_,_,_,_): {
 			//	print(p@location.begin.line);
 			//	print(";");
 			//	println(p@location.end.line);
-			//}
-			case AstNode subNode: {
-				if("location" in getAnnotations(subNode)) {
-					//linesWithCode  = linesWithCode  +{i | i <- [p@location.begin.line..p@location.end.line]}; //This should be it!
-					linesWithCode += {subNode@location.begin.line} + {subNode@location.end.line};
-				}
-			}	
+			//}	
 		};
 		contor += size(linesWithCode);
-		println("-----File: lines of code------");
-		orderedList = sort(toList(linesWithCode));
-		println(orderedList);
-		print("No of lines/file: ");
-		println(contor);	
-		println();
+		//println("-----File: lines of code------");
+		//orderedList = sort(toList(linesWithCode));
+		//println(orderedList);
+		//print("No of lines/file: ");
+		//println(contor);	
+		//println();
 		totalLOC += contor;  
 	};
-	println("----------The end------------");
-	print("Final result: ");
+	print("Total number of LOC/prject: ");
 	print(totalLOC);
-	println(" lines");
 }
 
-public int getUnitSize(implementationAST) {
-	linesWithCode = {};
-	visit(implementationAST){
-		case AstNode subNode: {
-			print(subNode@location.begin.line);
-			print("++");
-			println(subNode@location.end.line);
-			linesWithCode += {subNode@location.begin.line} + {subNode@location.end.line};
-		}
+public void cleanLinesCode(projectLoc) {
+	ast = createAstsFromProject(projectLoc);
+	totalLOC = 0;
+	for (AstNode aNode <- ast){
+		contor = 0;
+		linesWithCode = {};
+		visit(aNode){
+			case subNode : compilationUnit(_,_,_): {
+				linesWithCode = linesWithCode;//do nothing; how?
+			}
+			case AstNode subNode: {
+				if("location" in getAnnotations(subNode)) {
+					linesWithCode += {subNode@location.begin.line} + {subNode@location.end.line};
+				}
+			}
+		};
+		contor += size(linesWithCode);
+		totalLOC += contor;  
 	};
-	return size(linesWithCode);
+	print("Total number of LOC/prject: ");
+	print(totalLOC);
 }
+

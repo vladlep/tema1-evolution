@@ -36,7 +36,7 @@ public void unitComplexity(projectLoc){
 }
 
 /**
-debatable the infix
+debateable the infix
 http://manuel-pichler.de/archives/55-The-value-of-complexity-metrics-Cyclomatic-Complexity-12.html
 */
 public int cycloComplex(implementationAST ){
@@ -59,11 +59,10 @@ public int cycloComplex(implementationAST ){
 						numberDecisionPoints +=1;
 					case catchClause(_,_):
 						numberDecisionPoints +=1;
-/*					case infixExpression("&&",_,_,_) :
+					case infixExpression("&&",_,_,_) :
 						numberDecisionPoints +=1;
 					case infixExpression("||",_,_,_) :
-						numberDecisionPoints +=1;
-*/							
+						numberDecisionPoints +=1;		
 					case returnStatement(_):
 						exitPoints +=1;
 					case throwStatement(_):
@@ -75,10 +74,15 @@ public int cycloComplex(implementationAST ){
 	
 }
 
-public int getUnitSize(implementationAST){ 
-	return 1;
+public int getUnitSize(implementationAST) {
+	linesWithCode = {};
+	visit(implementationAST){
+		case AstNode subNode: {
+			print(subNode@location.begin.line);
+			print("++");
+			println(subNode@location.end.line);
+			linesWithCode += {subNode@location.begin.line} + {subNode@location.end.line};
+		}
+	};
+	return size(linesWithCode);
 }
-
-/**
-short version cycloComplex
-*/
