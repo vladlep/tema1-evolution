@@ -5,12 +5,12 @@ import UnitComplexity;
 import IO;
 
 public void main(){
-	selecteProject = |project://SmallSql/| ;
+	selectedProject = |project://SmallSql/| ;
 	
-	unitComplexity(selecteProject);
+	//unitComplexity(selectedProject);
 	
 	println("Code duplication percentage:");
-	//print (calculateDuplication(selectProject)) ;
+	print (calculateDuplication(selectedProject)) ;
 	println("%");
 }
 

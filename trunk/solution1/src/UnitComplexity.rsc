@@ -24,6 +24,15 @@ public void unitComplexity(projectLoc){
 				}
 			};
 	}
+	println();
+	print("moderate complexity: ");
+	println(moderateCode/totalCode * 100);
+	print("high complexity: ");
+	println(complexCode/totalCode * 100);
+	print("very high complexity: ");
+	println(veryComplexCode/totalCode * 100);
+	
+	
 }
 
 /**

@@ -24,7 +24,7 @@ public real calculateDuplication(selecteProject){
 	map[loc,set[int]] dupMap= (aFile:{}|aFile <-allFiles) ;
 	
 	for (aFile <- allFiles){
-		strFile = [trim(aLine) |aLine <-readFileLines(aFile)];
+		strFile = [trim(aLine) |aLine <-readFileLines(aFile), trim(aLine) !=""];
 		allFiles = allFiles - aFile;
 		totalNumnerLines += size(strFile);
 		for(i <-[0..(size(strFile)-6)]){
@@ -44,8 +44,7 @@ public real calculateDuplication(selecteProject){
 			
 			//search rest of files
 			for (otherFile <-allFiles){
-				otherFileStr = [trim(aLine) |aLine <-readFileLines(otherFile)];
-				
+				otherFileStr = [trim(aLine) |aLine <-readFileLines(otherFile), trim(aLine) != ""];
 				for(int j<-[0..(size(otherFileStr)-6)]){
 					otherFragment = [otherFileStr[j+k] | k<-[0..5]];
 					if( theFragment == otherFragment){
@@ -57,7 +56,6 @@ public real calculateDuplication(selecteProject){
 					}
 				}
 			}
-
 		}
 	}
 	allFiles = domain(dupMap);
@@ -82,7 +80,6 @@ short version
 public set[loc] getAllFiles (projectLoc){
 	//projectLoc = |project://Hello/|;
 	resour = getProject(projectLoc);
-	cont= 0;
 	allFiles = {};
 	visit (resour) { 
 		case file(aFileLoc) : if(aFileLoc.extension == "java") allFiles += aFileLoc;  
