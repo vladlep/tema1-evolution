@@ -26,6 +26,8 @@ public void calculateDuplication(selecteProject){
 	for (aFile <- allFiles){
 		strFile = [trim(aLine) |aLine <-readFileLines(aFile), trim(aLine) !=""];
 		allFiles = allFiles - aFile;
+		println(aFile);
+		println(size(allFiles));
 		totalNumnerLines += size(strFile);
 		for(i <-[0..(size(strFile)-6)]){
 			//search same file
