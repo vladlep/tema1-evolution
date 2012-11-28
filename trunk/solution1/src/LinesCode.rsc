@@ -74,7 +74,7 @@ public void linesCode(projectLoc) {
 	print(totalLOC);
 }
 
-public void cleanLinesCode(projectLoc) {
+public int cleanGetLinesCode(projectLoc) {
 	ast = createAstsFromProject(projectLoc);
 	totalLOC = 0;
 	for (AstNode aNode <- ast){
@@ -104,7 +104,8 @@ public void cleanLinesCode(projectLoc) {
 		contor += size(linesWithCode);
 		totalLOC += contor;  
 	};
-	print("Total number of LOC/prject: ");
-	print(totalLOC);
+	print("Total number of LOC/project: ");
+	println(totalLOC);
+	return totalLOC;
 }
 

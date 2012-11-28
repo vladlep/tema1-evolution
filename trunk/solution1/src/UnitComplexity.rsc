@@ -6,7 +6,7 @@ import  lang::java::jdt::JavaADT;
 import IO;
 import Set;
 
-public void unitComplexity(projectLoc){
+public map[str, real] unitComplexity(projectLoc){
 	ast = createAstsFromProject(projectLoc);
 	moderateCode = 0;
 	complexCode=0;
@@ -32,13 +32,22 @@ public void unitComplexity(projectLoc){
 				}
 			};
 	}
+	modC = moderateCode*100.0/totalCode;
+	highC = complexCode*100.0/totalCode;
+	veryHighC = veryComplexCode*100.0/totalCode;
 	println();
 	print("moderate complexity: ");
-	println(moderateCode*100.0/totalCode);
-	print("high complexity: ");
-	println(complexCode*100.0/totalCode);
-	print("very high complexity: ");
-	println(veryComplexCode*100.0/totalCode);	
+	println(modC);   	
+	print("high complexity: ");	
+	println(highC);	
+	print("very high complexity: ");	 
+	println(veryHighC);
+	
+	map[str, real] complex = ();
+	complex["moderate"] = modC;
+	complex["high"] = modC;
+	complex["very high"] = veryHighC; 	
+	return complex;
 }
 
 /**
