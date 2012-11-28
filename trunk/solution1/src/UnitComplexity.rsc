@@ -29,7 +29,6 @@ public void unitComplexity(projectLoc){
 					if(11<= cyc && cyc <= 20) moderateCode += unitSize;
 					if(21<= cyc && cyc <= 50) complexCode += unitSize;
 					if(50< cyc) veryComplexCode += unitSize;
-					println(cyc);
 				}
 			};
 	}
