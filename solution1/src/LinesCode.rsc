@@ -87,13 +87,15 @@ public int cleanGetLinesCode(projectLoc) {
 			case methodNode:methodDeclaration(_, _, _, _, _, _, _, implementationAST) :
 			{				
 				endLine = methodNode@location.end.line;
+				AstNode metodSubNodeBlock = methodNode; 
 				visit(implementationAST) {
 					case subNode : block(_): {
 						if (subNode@location.end.line == endLine) {
-							linesWithCode += {subNode@location.begin.line} + {subNode@location.end.line};
+							metodSubNodeBlock = subNode;	
 						}
 					}
-				};				
+				};
+				linesWithCode += {metodSubNodeBlock@location.begin.line} + {metodSubNodeBlock@location.end.line};				
 			}
 			case AstNode subNode: {
 				if("location" in getAnnotations(subNode)) {
