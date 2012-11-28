@@ -69,14 +69,8 @@ public int cycloComplex(implementationAST ){
 						numberDecisionPoints +=1;
 					case infixExpression("||",_,_,_) :
 						numberDecisionPoints +=1;		
-					case returnStatement(_):
-						exitPoints +=1;
-					case throwStatement(_):
-						exitPoints +=1;
 				}
-				if (exitPoints == 0) 
-					exitPoints =1; 
-				return 	(numberDecisionPoints -exitPoints +2 );
+				return 	(numberDecisionPoints +1);
 	
 }
 

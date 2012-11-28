@@ -18,13 +18,41 @@ public void linesCode(projectLoc) {
 		contor = 0;
 		linesWithCode = {};
 		visit(aNode){
+			case methodNode:methodDeclaration(_, _, _, _, methodName, _, _, implementationAST) :
+			{				
+				println("METHOD NAME " + methodName);
+				endLine = methodNode@location.end.line;
+				visit(implementationAST) {
+					//case AstNode subNode: {
+					//	println(subNode);
+					//	println("--------------------");
+					//}					
+					case subNode : block(_): {
+						if (subNode@location.end.line == endLine) {
+							linesWithCode += {subNode@location.begin.line} + {subNode@location.end.line};
+						}
+						//println(subNode);
+						//print("Start: ");
+						//print(subNode@location.begin.line);
+						//print("; ends at line ");
+						//println(subNode@location.end.line);
+						//println("--------------------");
+					}
+				};
+				
+			}	  
 			case subNode : compilationUnit(_,_,_): {
 				linesWithCode = linesWithCode;//do nothing; how?
 			}
+			
 			case AstNode subNode: {
 				if("location" in getAnnotations(subNode)) {
 					linesWithCode += {subNode@location.begin.line} + {subNode@location.end.line};
 				}
+				//println(subNode);
+				//print(subNode@location.begin.line);
+				//print("; ends at line ");
+				//println(subNode@location.end.line);
 			}
 			//this case will match the method, including its javadoc
 			//case p : methodDeclaration(_,_,_,_,_,_,_,_): {
@@ -42,7 +70,7 @@ public void linesCode(projectLoc) {
 		//println();
 		totalLOC += contor;  
 	};
-	print("Total number of LOC/prject: ");
+	print("Total number of LOC/project: ");
 	print(totalLOC);
 }
 
@@ -55,6 +83,17 @@ public void cleanLinesCode(projectLoc) {
 		visit(aNode){
 			case subNode : compilationUnit(_,_,_): {
 				linesWithCode = linesWithCode;//do nothing; how?
+			}
+			case methodNode:methodDeclaration(_, _, _, _, _, _, _, implementationAST) :
+			{				
+				endLine = methodNode@location.end.line;
+				visit(implementationAST) {
+					case subNode : block(_): {
+						if (subNode@location.end.line == endLine) {
+							linesWithCode += {subNode@location.begin.line} + {subNode@location.end.line};
+						}
+					}
+				};				
 			}
 			case AstNode subNode: {
 				if("location" in getAnnotations(subNode)) {
