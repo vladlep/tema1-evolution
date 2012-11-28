@@ -85,15 +85,11 @@ public set[loc] getAllFiles (projectLoc){
 public void complicatedDup(selecteProject){
 	allFiles = getAllFiles(selecteProject);
 	//allFiles = [|project://SmallSql/src/smallsql/database/SSCallableStatement.java|];
-	
 	totalDupLines = 0;
 	totalNumnerLines = 0;
-	//map[list[str],set[list[loc,set[int] ] ] ] dupMap= ([""]:{}) ;
 	map[list[str],set[tuple[loc file,list [int] lines]] ] dupMap= ([""]:{}) ;
-	
 	for (aFile <- allFiles){
 		strFile = [trim(aLine) |aLine <-readFileLines(aFile), trim(aLine) !=""];
-	
 		println(aFile);
 		totalNumnerLines += size(strFile);
 		for(i <-[0..(size(strFile)-6)]){
@@ -108,13 +104,11 @@ public void complicatedDup(selecteProject){
 		}
 	}
 	//println(dupMap);
-	
 	//cut the keys from the map
 	newListDup = [dupMap[key]	|key<-domain(dupMap), size(dupMap[key])>1];
 	//get all unique files
 	allFilesWithDup = {aTuple.file | setDup<-newListDup, aTuple <-toList(setDup)};
 	println(allFilesWithDup);
-	
 	//initit newMap
 	loc aLoc = toList(allFilesWithDup)[0];
 	map[loc,set[int]] newMap = (aLoc:{-1});
@@ -123,14 +117,12 @@ public void complicatedDup(selecteProject){
 			newMap[aFileWithDup ] = {};
 		}
 	}	
-
 	//put values for all the keys, in the new map
 	for (aFileWithDup <-allFilesWithDup){ 
 		newMap[aFileWithDup] += {aLine | setDup<-newListDup, aTuple <-toList(setDup), aTuple.file == aFileWithDup, aLine <-aTuple.lines };
 		newMap[aFileWithDup] -= {-1};
 	}
-		println(newMap);
-	
+	println(newMap);
 	totalDupLines = sum ([ size(newMap[aFile]) | aFile <- allFilesWithDup ]);
 	println(totalDupLines );
 	println(totalNumnerLines);
