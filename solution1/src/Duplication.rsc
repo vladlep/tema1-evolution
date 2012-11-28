@@ -82,9 +82,8 @@ public set[loc] getAllFiles (projectLoc){
 }
 
 
-public void complicatedDup(selecteProject){
+public real complicatedGetDup(selecteProject){
 	allFiles = getAllFiles(selecteProject);
-	//allFiles = [|project://SmallSql/src/smallsql/database/SSCallableStatement.java|];
 	totalDupLines = 0;
 	totalNumnerLines = 0;
 	map[list[str],set[tuple[loc file,list [int] lines]] ] dupMap= ([""]:{}) ;
@@ -103,12 +102,10 @@ public void complicatedDup(selecteProject){
 			}
 		}
 	}
-	//println(dupMap);
 	//cut the keys from the map
 	newListDup = [dupMap[key]	|key<-domain(dupMap), size(dupMap[key])>1];
 	//get all unique files
 	allFilesWithDup = {aTuple.file | setDup<-newListDup, aTuple <-toList(setDup)};
-	println(allFilesWithDup);
 	//initit newMap
 	loc aLoc = toList(allFilesWithDup)[0];
 	map[loc,set[int]] newMap = (aLoc:{-1});
@@ -122,11 +119,12 @@ public void complicatedDup(selecteProject){
 		newMap[aFileWithDup] += {aLine | setDup<-newListDup, aTuple <-toList(setDup), aTuple.file == aFileWithDup, aLine <-aTuple.lines };
 		newMap[aFileWithDup] -= {-1};
 	}
-	println(newMap);
 	totalDupLines = sum ([ size(newMap[aFile]) | aFile <- allFilesWithDup ]);
 	println(totalDupLines );
 	println(totalNumnerLines);
 	println("Duplicated code percentage:");
-	print(totalDupLines *100.0 /totalNumnerLines);
+	result = totalDupLines *100.0 /totalNumnerLines; 
+	print(result);
 	println("%");	
+	return result; 
 }
