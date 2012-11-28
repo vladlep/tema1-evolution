@@ -4,6 +4,7 @@ import lang::java::jdt::Java;
 import lang::java::jdt::JDT;
 import  lang::java::jdt::JavaADT;
 import IO;
+import Set;
 
 public void unitComplexity(projectLoc){
 	ast = createAstsFromProject(projectLoc);
@@ -11,28 +12,34 @@ public void unitComplexity(projectLoc){
 	complexCode=0;
 	veryComplexCode=0;
 	totalCode=0;
+	outputFile = |file:///home/ioana/UnitResut.txt|;
 	for (AstNode aNode <- ast){
 			visit(aNode){
 				case methodDeclaration(_, _, _, _, methodName, _, _, implementationAST) :{
 					cyc = cycloComplex(implementationAST);
 					unitSize = getUnitSize(implementationAST);
+					appendToFile(outputFile, methodName);
+     				appendToFile(outputFile, " ");
+     				appendToFile(outputFile, cyc);
+     				appendToFile(outputFile, " ");
+     				appendToFile(outputFile, unitSize);
+     				appendToFile(outputFile, "\n");
+					
 					totalCode += unitSize;
 					if(11<= cyc && cyc <= 20) moderateCode += unitSize;
 					if(21<= cyc && cyc <= 50) complexCode += unitSize;
-					if(50> cyc) veryComplexCode += unitSize;
+					if(50< cyc) veryComplexCode += unitSize;
 					println(cyc);
 				}
 			};
 	}
 	println();
 	print("moderate complexity: ");
-	println(moderateCode/totalCode * 100);
+	println(moderateCode*100.0/totalCode);
 	print("high complexity: ");
-	println(complexCode/totalCode * 100);
+	println(complexCode*100.0/totalCode);
 	print("very high complexity: ");
-	println(veryComplexCode/totalCode * 100);
-	
-	
+	println(veryComplexCode*100.0/totalCode);	
 }
 
 /**
@@ -78,9 +85,6 @@ public int getUnitSize(implementationAST) {
 	linesWithCode = {};
 	visit(implementationAST){
 		case AstNode subNode: {
-			print(subNode@location.begin.line);
-			print("++");
-			println(subNode@location.end.line);
 			linesWithCode += {subNode@location.begin.line} + {subNode@location.end.line};
 		}
 	};
