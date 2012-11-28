@@ -80,3 +80,37 @@ public set[loc] getAllFiles (projectLoc){
 	}
 	return allFiles;
 }
+
+
+public void complicatedDup(selecteProject){
+	allFiles = getAllFiles(selecteProject);
+	
+	totalDupLines = 0;
+	totalNumnerLines = 0;
+	map[list[str],set[list[loc,set[int] ] ] ] dupMap= ([""]:{}) ;
+	
+	for (aFile <- allFiles){
+		strFile = [trim(aLine) |aLine <-readFileLines(aFile), trim(aLine) !=""];
+	
+		println(aFile);
+		totalNumnerLines += size(strFile);
+		for(i <-[0..(size(strFile)-6)]){
+			//search same file
+			theFragment = [strFile[i+k] |  k<-[0..5]];
+			if(theFragment in domain(dupMap)){
+				dupMap[theFragment]+= [aFile,[i..i+5]];
+			}	
+			else{
+				dupMap[theFragment] = [aFile,[i..i+5]];
+			}
+		}
+	}
+	
+	println(dupMap);
+	//totalDupLines = sum ([ size(dupMap[aFile]) | aFile <- allFiles ]);
+	//println(totalDupLines );
+	println(totalNumnerLines);
+	println("Duplicated code percentage:");
+	print(totalDupLines *100.0 /totalNumnerLines);
+	println("%");	
+}
