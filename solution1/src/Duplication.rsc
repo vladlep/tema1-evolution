@@ -64,7 +64,7 @@ public void calculateDuplication(selecteProject){
 	println(totalDupLines );
 	println(totalNumnerLines);
 	println("Duplicated code percentage:");
-	print(totalDupLines /totalNumnerLines*100);
+	print(totalDupLines*100.0/totalNumnerLines);
 	println("%");
 	
 }

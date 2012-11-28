@@ -6,7 +6,7 @@ import IO;
 
 public void main(){
 	selectedProject = |project://SmallSql/| ;
-	linesCode(projectLoc) 
+	linesCode(selectedProject); 
 	unitComplexity(selectedProject);
 	calculateDuplication(selectedProject);
 	
