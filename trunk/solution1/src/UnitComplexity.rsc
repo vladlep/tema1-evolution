@@ -12,7 +12,7 @@ public map[str, real] unitComplexity(projectLoc){
 	complexCode=0;
 	veryComplexCode=0;
 	totalCode=0;
-	outputFile = |file:///home/ioana/UnitResut.txt|;
+	outputFile = |file:///d:/UnitResut.txt|;
 	for (AstNode aNode <- ast){
 			visit(aNode){
 				case methodDeclaration(_, _, _, _, methodName, _, _, implementationAST) :{
@@ -70,7 +70,7 @@ public int cycloComplex(implementationAST ){
 						numberDecisionPoints +=1;
 					case doStatement(_, _):
 						numberDecisionPoints +=1;
-					case switchCase(_,_):
+					case switchCase(_,_): // includes defaul. First parameter is a boolean that is True if we are in the default case.
 						numberDecisionPoints +=1;
 					case catchClause(_,_):
 						numberDecisionPoints +=1;
@@ -87,7 +87,7 @@ public int getUnitSize(implementationAST) {
 	linesWithCode = {};
 	visit(implementationAST){
 		case AstNode subNode: {
-			linesWithCode += {subNode@location.begin.line} + {subNode@location.end.line};
+			linesWithCode += {subNode@location.begin.line};
 		}
 	};
 	return size(linesWithCode);
