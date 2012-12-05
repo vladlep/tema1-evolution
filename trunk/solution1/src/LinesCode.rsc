@@ -10,7 +10,7 @@ import Set;
 import Node;
 import Map;
 
-public void linesCode(projectLoc) {
+public int linesCode(projectLoc) {
 	//projectLoc = |project://Hello/.|;
 	ast = createAstsFromProject(projectLoc);
 	totalLOC = 0;
@@ -23,20 +23,11 @@ public void linesCode(projectLoc) {
 				println("METHOD NAME " + methodName);
 				endLine = methodNode@location.end.line;
 				visit(implementationAST) {
-					//case AstNode subNode: {
-					//	println(subNode);
-					//	println("--------------------");
-					//}					
+
 					case subNode : block(_): {
 						if (subNode@location.end.line == endLine) {
-							linesWithCode += {subNode@location.begin.line} + {subNode@location.end.line};
+							linesWithCode += {subNode@location.begin.line};
 						}
-						//println(subNode);
-						//print("Start: ");
-						//print(subNode@location.begin.line);
-						//print("; ends at line ");
-						//println(subNode@location.end.line);
-						//println("--------------------");
 					}
 				};
 				
@@ -47,7 +38,7 @@ public void linesCode(projectLoc) {
 			
 			case AstNode subNode: {
 				if("location" in getAnnotations(subNode)) {
-					linesWithCode += {subNode@location.begin.line} + {subNode@location.end.line};
+					linesWithCode += {subNode@location.begin.line} ;
 				}
 				//println(subNode);
 				//print(subNode@location.begin.line);
@@ -70,8 +61,8 @@ public void linesCode(projectLoc) {
 		//println();
 		totalLOC += contor;  
 	};
-	print("Total number of LOC/project: ");
-	print(totalLOC);
+	println("Total number of LOC/project: ");
+	return  totalLOC;
 }
 
 public int cleanGetLinesCode(projectLoc) {
@@ -95,19 +86,19 @@ public int cleanGetLinesCode(projectLoc) {
 						}
 					}
 				};
-				linesWithCode += {metodSubNodeBlock@location.begin.line} + {metodSubNodeBlock@location.end.line};				
+				linesWithCode += {metodSubNodeBlock@location.begin.line};				
 			}
 			case AstNode subNode: {
 				if("location" in getAnnotations(subNode)) {
-					linesWithCode += {subNode@location.begin.line} + {subNode@location.end.line};
+					linesWithCode += {subNode@location.begin.line};
 				}
 			}
 		};
 		contor += size(linesWithCode);
 		totalLOC += contor;  
 	};
-	print("Total number of LOC/project: ");
-	println(totalLOC);
+	print("Total number of LOC/project: <totalLOC>");
+	
 	return totalLOC;
 }
 
