@@ -97,7 +97,7 @@ public int cleanGetLinesCode(projectLoc) {
 		contor += size(linesWithCode);
 		totalLOC += contor;  
 	};
-	print("Total number of LOC/project: <totalLOC>");
+	println("Total number of LOC/project: <totalLOC>");
 	
 	return totalLOC;
 }
