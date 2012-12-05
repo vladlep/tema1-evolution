@@ -1,0 +1,4 @@
+1.how to do a 2D plotting 
+xyChart /solution2/std/vis/Chart.rsc
+
+2. what do we do with abstract methods? 1 line- 1 cyclocomplexity ?	
