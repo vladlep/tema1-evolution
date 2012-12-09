@@ -5,6 +5,7 @@ import lang::java::jdt::JDT;
 import  lang::java::jdt::JavaADT;
 import IO;
 import Set;
+import List;
 
 public map[str, real] unitComplexity(projectLoc){
 	ast = createAstsFromProject(projectLoc);
@@ -14,22 +15,29 @@ public map[str, real] unitComplexity(projectLoc){
 	totalCode=0;
 	outputFile = |file:///./UnitResults2.txt|;
 	for (AstNode aNode <- ast){
-			visit(aNode){
-				case subNode:methodDeclaration(_, _, _, _, methodName, _, _, implementationAST) :{
-					cyc = cycloComplex(implementationAST);
-					unitSize = getUnitSize(implementationAST,{subNode@location.begin.line});
-					appendToFile(outputFile, "<cyc>, <unitSize>\n");
-					if(unitSize ==0) 
-						println(methodName);
-					totalCode += unitSize;
-					if(11<= cyc && cyc <= 20) {
-						moderateCode += unitSize;
-					}
-					if(21<= cyc && cyc <= 50) {
-						complexCode += unitSize;
-					}
-					if(50< cyc) {
-						veryComplexCode += unitSize;
+
+			visit(aNode ){
+				case interfaceNode :typeDeclaration(_, _, objectType, _, _, _, _, _):{
+				if(objectType == "interface")	{println("interface"); fail;} 
+				}
+				case subNode:methodDeclaration(modifiers, _, _, _, methodName, _, _, implementationAST) :{
+					println(methodName);
+					if(! (abstract() in modifiers)){
+						cyc = cycloComplex(implementationAST);
+						unitSize = getUnitSize(implementationAST,{subNode@location.begin.line});
+						appendToFile(outputFile, "<cyc>, <unitSize>\n");
+						if(unitSize ==0) 
+							println(methodName);
+						totalCode += unitSize;
+						if(11<= cyc && cyc <= 20) {
+							moderateCode += unitSize;
+						}
+						if(21<= cyc && cyc <= 50) {
+							complexCode += unitSize;
+						}
+						if(50< cyc) {
+							veryComplexCode += unitSize;
+						}
 					}
 				}
 			};
