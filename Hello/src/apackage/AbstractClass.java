@@ -2,7 +2,9 @@ package apackage;
 
 public abstract class AbstractClass {
 
-	abstract void testing();
+	public abstract void testing();
 	
 	
 }
+
+interface AnOtherOne{}
