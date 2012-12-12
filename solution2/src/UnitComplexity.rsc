@@ -23,17 +23,18 @@ public map[str, real] unitComplexity(projectLoc){
 								if(! (abstract() in modifiers)){
 									cyc = cycloComplex(implementationAST);
 									unitSize = getUnitSize(implementationAST,{subNode@location.begin.line});
-									appendToFile(outputFile, "<cyc>, <unitSize>\n");
-									if(unitSize ==0) 
-										println(methodName);
+									appendToFile(outputFile, "<cyc>, <unitSize> ");
 									totalCode += unitSize;
 									if(11<= cyc && cyc <= 20) {
+										appendToFile(outputFile, "1\n");
 										moderateCode += unitSize;
 									}
 									if(21<= cyc && cyc <= 50) {
+										appendToFile(outputFile, "2\n");
 										complexCode += unitSize;
 									}
 									if(50< cyc) {
+										appendToFile(outputFile, "3\n");
 										veryComplexCode += unitSize;
 									}
 								}
