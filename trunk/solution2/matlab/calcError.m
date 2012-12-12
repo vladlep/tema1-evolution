@@ -1,7 +1,8 @@
 function [squareError,percentCorrect] = calcError( x1,x2, data, prjName )
     error= 0;
+    maxDiffLOC =10;
+    for diffLOC =1:maxDiffLOC 
     percentCorrect =0;
-    for diffLOC =1:7
      for i=1:size(data,1)
             error = error + (x1 *data(i,1) + x2 - data(i,2))^2;
                 if ((x1 *data(i,1) + x2 - data(i,2))^2 <diffLOC^2)
@@ -10,7 +11,7 @@ function [squareError,percentCorrect] = calcError( x1,x2, data, prjName )
         end
         squareError = error / size(data,1);
         percentCorrect = percentCorrect / size(data,1) * 100
-    scatter(diffLOC,percentCorrect,3);
+    scatter(diffLOC,percentCorrect,5);
     hold on;
     end
     xlabel('Difference LOC accepted');
