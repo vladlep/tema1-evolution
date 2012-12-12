@@ -1,4 +1,4 @@
-function [squareError,percentCorrect] = calcError( x1,x2, data )
+function [squareError,percentCorrect] = calcError( x1,x2, data, prjName )
     error= 0;
     percentCorrect =0;
     for diffLOC =1:7
@@ -15,6 +15,7 @@ function [squareError,percentCorrect] = calcError( x1,x2, data )
     end
     xlabel('Difference LOC accepted');
     ylabel('Correct percentage prediction');
+    print('-dpng', strcat(prjName,'-Success percentage'));
     hold off;
 
 end
