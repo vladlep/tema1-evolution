@@ -30,8 +30,8 @@ prjName = 'allProjects';
 generateHist([smallTrain;smallTest;xmlTrain;xmlTest;hsqlTrain;hsqlTest;argoTrain;argoTest], prjName );
 p = trainFunction( [smallTrain;xmlTrain;hsqlTrain;argoTrain;],prjName );
 
-calcError(p(1), p(2),argoTest, 'allFunctionTestedOnArgo' );
-calcError(p(1), p(2),xmlTest, 'allFunctionTestedOnXml' );
-calcError(p(1), p(2),smallTest, 'allFunctionTestedOnSmall' );
-calcError(p(1), p(2),hsqlTest, 'allFunctionTestedOnHsql' );
+calcError(p(1), p(2),argoTest, 'allFunctionTestedOnArgo' )
+calcError(p(1), p(2),xmlTest, 'allFunctionTestedOnXml' )
+calcError(p(1), p(2),smallTest, 'allFunctionTestedOnSmall' )
+calcError(p(1), p(2),hsqlTest, 'allFunctionTestedOnHsql' )
 calcError(p(1), p(2),[argoTest;xmlTest;smallTest;hsqlTest], 'allFunctionTestedOnAll' );
