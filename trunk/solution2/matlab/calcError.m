@@ -1,7 +1,7 @@
 function [squareError,percentageResults] = calcError( x1,x2, data, prjName )
     error= 0;
     maxDiffLOC =10;
-    percentageResults = []
+    percentageResults = [];
     for diffLOC =1:maxDiffLOC 
     percentCorrect =0;
      for i=1:size(data,1)
@@ -15,6 +15,7 @@ function [squareError,percentageResults] = calcError( x1,x2, data, prjName )
     percentageResults = [percentageResults ;percentCorrect];
     end
     plot([1:maxDiffLOC],percentageResults);
+    percentageResults
     xlabel('Difference LOC accepted');
     ylabel('Correct percentage prediction');
     print('-dpng', strcat(prjName,'-Success percentage'));

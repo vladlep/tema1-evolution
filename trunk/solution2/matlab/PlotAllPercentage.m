@@ -1,4 +1,5 @@
 prjName = 'small';
+% p = trainFunction( [smallTrain;xmlTrain;hsqlTrain;argoTrain;],prjName );
 p = trainFunction( smallTrain,prjName );
 [squareError,smallResults] = calcError(p(1), p(2),smallTest, prjName );
 
@@ -29,7 +30,7 @@ text(2.25,argoResults(2),'\leftarrow Argo UML' ,'HorizontalAlignment','left','Co
 hold on
 plot([1:10],hsqlResults,'--k*','LineWidth',2,...
                 'MarkerEdgeColor','k', 'MarkerFaceColor','k',  'MarkerSize',5);
-text(3.85,hsqlResults(4),'\leftarrow Hsql ','HorizontalAlignment','left','Color','k')           
+text(4.15,hsqlResults(4),'\leftarrow Hsql ','HorizontalAlignment','left','Color','k')           
 
 
 plot([1:10],xmlResults,'--r*','LineWidth',2,...
@@ -38,7 +39,7 @@ text(3.85,xmlResults(4),'XML \rightarrow','HorizontalAlignment','right', 'Color'
 
 plot([1:10],smallResults,'--bs','LineWidth',2,...
                 'MarkerEdgeColor','b', 'MarkerFaceColor','b',  'MarkerSize',5);
-text(2.85,smallResults(3),'Small \rightarrow','HorizontalAlignment','right','Color','b')           
+text(2.85,smallResults(3)-2.75,'Small \rightarrow','HorizontalAlignment','right','Color','b')           
 
 plot([1:10],allResults,'-mx','LineWidth',2,...
                 'MarkerEdgeColor','m', 'MarkerFaceColor','m',  'MarkerSize',5);

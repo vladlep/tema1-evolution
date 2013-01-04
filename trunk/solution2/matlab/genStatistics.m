@@ -1,8 +1,12 @@
 
 subplot(1,2,1)
-hist(argo(:,2),409)
+data = argo;
+% data = [xmlTrain;xmlTest];
+% data = [hsqlTrain; hsqlTest];
+% data = [smallTrain;smallTest];
+hist(data(:,2),409)
 subplot(1,2,2)
-hist(argo(:,1),100)
+hist(data(:,1),100)
 % peak for argo: Cyc = 1 >4100 methods; LOC = 3 ~ >9400 methods
 
 subplot(1,2,2)
