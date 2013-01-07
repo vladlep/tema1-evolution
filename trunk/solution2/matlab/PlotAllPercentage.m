@@ -1,24 +1,24 @@
 prjName = 'small';
-% p = trainFunction( [smallTrain;xmlTrain;hsqlTrain;argoTrain;],prjName );
-p = trainFunction( smallTrain,prjName );
+p = trainFunction( [smallTrain;xmlTrain;hsqlTrain;argoTrain;],prjName );
+% p = trainFunction( smallTrain,prjName );
 [squareError,smallResults] = calcError(p(1), p(2),smallTest, prjName );
 
 
 prjName = 'xml';
-p = trainFunction( xmlTrain,prjName );
+% p = trainFunction( xmlTrain,prjName );
 [squareError,xmlResults] = calcError(p(1), p(2),xmlTest, prjName );
 
 prjName = 'hsql';
-p = trainFunction( hsqlTrain,prjName );
+% p = trainFunction( hsqlTrain,prjName );
 [squareError,hsqlResults] = calcError(p(1), p(2),hsqlTest, prjName );
 
 
 prjName = 'argo';
-p = trainFunction( argoTrain,prjName );
+% p = trainFunction( argoTrain,prjName );
 [squareError,argoResults] = calcError(p(1), p(2),argoTest, prjName );
 
 prjName = 'allProjects';
-p = trainFunction( [smallTrain;xmlTrain;hsqlTrain;argoTrain;],prjName );
+% p = trainFunction( [smallTrain;xmlTrain;hsqlTrain;argoTrain;],prjName );
 [squareError,allResults] = calcError(p(1), p(2),[argoTest;xmlTest;smallTest;hsqlTest], 'allFunctionTestedOnAll' );
 
 
@@ -39,8 +39,8 @@ text(3.85,xmlResults(4),'XML \rightarrow','HorizontalAlignment','right', 'Color'
 
 plot([1:10],smallResults,'--bs','LineWidth',2,...
                 'MarkerEdgeColor','b', 'MarkerFaceColor','b',  'MarkerSize',5);
-text(2.85,smallResults(3)-2.75,'Small \rightarrow','HorizontalAlignment','right','Color','b')           
+text(2.85,smallResults(3)+1.5,'Small \rightarrow','HorizontalAlignment','right','Color','b')           
 
 plot([1:10],allResults,'-mx','LineWidth',2,...
                 'MarkerEdgeColor','m', 'MarkerFaceColor','m',  'MarkerSize',5);
-text(2.85,allResults(3),'All projects \rightarrow','HorizontalAlignment','right','Color','m')           
+text(2.85,allResults(3)-0.5,'All projects \rightarrow','HorizontalAlignment','right','Color','m')           

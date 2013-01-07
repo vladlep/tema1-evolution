@@ -43,5 +43,5 @@ text(3.85,xmlResults(4),'XML \rightarrow','HorizontalAlignment','right', 'Color'
 
 plot([1:10],smallResults,'--bs','LineWidth',2,...
                 'MarkerEdgeColor','b', 'MarkerFaceColor','b',  'MarkerSize',5);
-text(2.85,smallResults(3)-2.75,'Small \rightarrow','HorizontalAlignment','right','Color','b')           
+text(2.85,smallResults(3),'Small \rightarrow','HorizontalAlignment','right','Color','b')           
 
