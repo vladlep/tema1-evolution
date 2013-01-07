@@ -1,9 +1,9 @@
 
 subplot(1,2,1)
-data = argo;
+% data = [argoTest;argoTrain];
 % data = [xmlTrain;xmlTest];
 % data = [hsqlTrain; hsqlTest];
-% data = [smallTrain;smallTest];
+data = [smallTrain;smallTest];
 hist(data(:,2),409)
 subplot(1,2,2)
 hist(data(:,1),100)

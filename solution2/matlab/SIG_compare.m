@@ -3,9 +3,16 @@ prjName = 'allProjects';
 %    column 1 = CC
 %    column 2 = LOC
 
-p = trainFunction( [smallTrain;xmlTrain;hsqlTrain;argoTrain;],prjName );
+% p = trainFunction( [smallTrain;xmlTrain;hsqlTrain;argoTrain],prjName );
+% p = trainFunction( [smallTrain;xmlTrain;hsqlTrain;argoTrain;compendiumTrain],prjName );
+p = trainFunction( [smallTrain;xmlTrain;hsqlTrain;argoTrain;tomcatTrain],prjName );
 
-data = [xmlTrain; xmlTest];
+% data = [argoTrain; argoTest];
+% data = [smallTrain; smallTest];
+% data = [hsqlTrain; hsqlTest];
+% data = [xmlTrain; xmlTest];
+% data = [compendiumTrain; compendiumTest];
+data = [tomcatTrain; tomcatTest];
 moderateCode = 0;
 complexCode=0;
 veryComplexCode=0;
@@ -15,7 +22,7 @@ for i=1:size(data,1)
     if(11<= cyc && cyc <= 20) 
             moderateCode = moderateCode +data(i,2);
     end
-    if(21<= cyc && cyc <= 50) 
+    if(20<= cyc && cyc <= 50) 
         complexCode = complexCode+data(i,2);
     end
     if(50< cyc) 
