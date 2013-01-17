@@ -3,9 +3,11 @@ module UnitComplexity
 import lang::java::jdt::Java;
 import lang::java::jdt::JDT;
 import  lang::java::jdt::JavaADT;
+import util::Resources;
 import IO;
 import Set;
 import List;
+import Node;
 
 public map[str, real] unitComplexity(projectLoc){
 	ast = createAstsFromProject(projectLoc);
@@ -13,7 +15,7 @@ public map[str, real] unitComplexity(projectLoc){
 	complexCode=0;
 	veryComplexCode=0;
 	totalCode=0;
-	outputFile = |file:///./UnitResults2.txt|;
+	outputFile = |file:///home/ioana/workspace/evol-proj/tema1-evolution/solution2/compendium.txt|;
 	for (AstNode aNode <- ast){
 			visit(aNode ){
 				case interfaceNode :typeDeclaration(_, _, objectType, _, _, _, _, _):{
@@ -22,19 +24,19 @@ public map[str, real] unitComplexity(projectLoc){
 							case subNode:methodDeclaration(modifiers, _, _, _, methodName, _, _, implementationAST) :{
 								if(! (abstract() in modifiers)){
 									cyc = cycloComplex(implementationAST);
-									unitSize = getUnitSize(implementationAST,{subNode@location.begin.line});
-									appendToFile(outputFile, "<cyc>, <unitSize> ");
+									unitSize = getUnitSize(implementationAST,subNode);
+									appendToFile(outputFile, "<cyc>, <unitSize> \n");
 									totalCode += unitSize;
 									if(11<= cyc && cyc <= 20) {
-										appendToFile(outputFile, "1\n");
+										//appendToFile(outputFile, "1\n");
 										moderateCode += unitSize;
 									}
 									if(21<= cyc && cyc <= 50) {
-										appendToFile(outputFile, "2\n");
+										//appendToFile(outputFile, "2\n");
 										complexCode += unitSize;
 									}
 									if(50< cyc) {
-										appendToFile(outputFile, "3\n");
+										//appendToFile(outputFile, "3\n");
 										veryComplexCode += unitSize;
 									}
 								}
@@ -43,6 +45,7 @@ public map[str, real] unitComplexity(projectLoc){
 				}
 			};
 	}
+	println(totalCode);
 	modC = moderateCode*100.0/totalCode;
 	highC = complexCode*100.0/totalCode;
 	veryHighC = veryComplexCode*100.0/totalCode;
@@ -86,12 +89,22 @@ public int cycloComplex(implementationAST ){
 	
 }
 
-public int getUnitSize(implementationAST,beginMethodLine) {
-	linesWithCode = {beginMethodLine};
-	visit(implementationAST){
+public int getUnitSize(implementationAST, methodNode) {
+	linesWithCode = {};
+	endLine = methodNode@location.end.line;
+	AstNode metodSubNodeBlock = methodNode; 
+	visit(implementationAST) {
+		case subNode : block(_): {
+			if (subNode@location.end.line == endLine) {
+				metodSubNodeBlock = subNode;	
+				}
+			}
 		case AstNode subNode: {
-			linesWithCode += {subNode@location.begin.line};
-		}
-	};
+				if("location" in getAnnotations(subNode)) {
+					linesWithCode += {subNode@location.begin.line};
+				}
+			}
+		};
+	linesWithCode += {metodSubNodeBlock@location.begin.line};
 	return size(linesWithCode);
 }
